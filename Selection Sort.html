@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 선택정렬 O(N^2) - 가장 작은 것을 선택해서 제일 앞으로 보내면 어떨까?
+        let i, j, min, index, temp;
+        let array = [1, 2, 5, 8, 7, 6, 4, 3, 10, 9];
+
+        for (i = 0; i < 10; i++) {
+            min = 9999; // 매번 초기화
+            for (j = i; j < 10; j++) { // 연산횟수 -> 10 + 9 + 8 + 7 ...
+                if (min > array[j]) { // 제일 작은 것 확인
+                    min = array[j]; // 값
+                    index = j; // 인덱스
+                }
+            }
+            // 원래 자리와 스왑
+            temp = array[i];
+            array[i] = array[index];
+            array[index] = temp;
+        }
+
+        for (i = 0; i < 10; i++) {
+            console.log(array[i]);
+        }
+    </script>
+</body>
+</html>
