@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 버블정렬 O(N^2) - 옆에 있는 값과 비교해서 더 작은 값을 앞으로 보내면 어떨까? (정렬 알고리즘 중 가장 비효율적)
+        let i, j, temp;
+        let array = [1, 2, 5, 8, 7, 6, 4, 3, 10, 9];
+
+        // 선택 정렬과 달리 최솟값을 저장할 필요가 없음
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 9 - i; j++) { // 0 ~ 8, 0 ~ 7, 0 ~ 6, 0 ~ 5 ...
+                if(array[j] > array[j + 1]) { // 현재 값이 그다음 값보다 클 때, 서로 스왑
+                    temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+                // 결과 적으로는 한번 정렬을 돌 때, 맨 뒤에 제일 큰 수가 자리 잡게 됩니다.
+            }
+        }
+
+        for (i = 0; i < 10; i++) {
+            console.log(array[i]);
+        }
+    </script>
+</body>
+</html>
