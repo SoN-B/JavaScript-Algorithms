@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 삽입정렬 O(N^2) - 각 숫자를 적절한 위치에 삽입하면 어떨까? (O(N^2) 정렬 알고리즘중 가장 강력합니다.)
+        // 다른 정렬 방식들은 무조건 위치를 바꾸는 방식이었다면, 삽입정렬은 '필요할 때만' 위치를 바꾸게 됩니다.
+        let i, j, temp;
+        let array = [1, 10, 5, 8, 7, 6, 4, 3, 2, 9];
+
+        for (i = 0; i < 9; i++) {
+            j = i;
+            while(array[j] > array[j + 1]) {
+                temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+                j--;
+            }
+        }
+
+        for (i = 0; i < 10; i++) {
+            console.log(array[i]);
+        }
+    </script>
+</body>
+</html>
