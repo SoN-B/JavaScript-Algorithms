@@ -30,13 +30,15 @@
             if(start >= end) return; // 원소가 1개인 경우
 
             let key = start; // 키는 첫번째 원소
+
             let i = start + 1;
             let j = end;
+
             let temp;
 
             while(i <= j) { // 엇갈릴 때까지 반복, i > j
-                while(array[i] <= array[key] && i <= end ) i++; // 키 값보다 큰 값을 만날 때까지
-                while(array[j] >= array[key] && j > start) j--; // 키 값보다 작은 값을 만날 때까지
+                while(array[i] <= array[key] && i <= end ) i++; // 키 값보다 큰 값을 만날 때까지 i > key
+                while(array[j] >= array[key] && j > start) j--; // 키 값보다 작은 값을 만날 때까지 i < key
 
                 if(i > j) { // 현재 엇갈린 상태면 키 값과 교체
                     temp = array[j];
@@ -53,7 +55,7 @@
             quickSort(array, j + 1, end);
         } 
 
-        quickSort(array, 0, number - 1)
+        quickSort(array, 0, number - 1) // 0 ~ 9
         
         for (i = 0; i < 10; i++) {
             console.log(array[i]);
