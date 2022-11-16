@@ -11,30 +11,31 @@
 <body>
     <script>
         // 병합 정렬 O(N * logN) - 일단 반으로 나누고 나중에 합쳐서 정렬하면 어떨까?
-        // 퀵정렬과 다르게 항상 정확하게 반절씩 나눈다는점에서 최악의 경우에도 O(N * logN)을 보장합니다. (피벗값 X)
+        // 퀵 정렬과 다르게 항상 정확하게 반절씩 나눈다는 점에서 최악의 경우에도 O(N * logN)을 보장합니다. (피벗 값 X)
+        // 병합하기 전 배열들이 이미 정렬이 돼있기 때문에, 그 순간 정렬 자체의 필요 수행 시간은 N
+        // 기존의 데이터를 담을 추가적인 배열 공간이 필요합니다 - 메모리 활용이 비효율적
 
         let array = [10, 1, 5, 8, 7, 6, 4, 3, 2, 9];
         let number = 10;
         let sorted = []
 
         function merge(a, m, middle, n) {
+            let i = m; // 분할된 첫 번째 배열 시작 인덱스
+            let j = middle + 1; // 분할된 두 번째 ~
+            let k = m; // 임시로 넣을 배열의 인덱스도 마찬가지로 m부터 시작합니다
 
-            let i = m; // 첫번째 배열 시작 인덱스
-            let j = middle + 1; // 두번째 ~
-            let k = m;
-
-            while (i <= middle && j <= n) { // i 는 middle 전까지, j는 끝 인덱스인 n 전까지
-                if (a[i] <= a[j]) {
+            while (i <= middle && j <= n) { // i는 middle 전까지, j는 끝 인덱스인 n 전까지
+                if (a[i] <= a[j]) { // 더 작은 걸 삽입
                     sorted[k] = a[i];
                     i++;
                 } else {
                     sorted[k] = a[j];
                     j++;
                 }
-                k++; // 한번 넣고나면 다음 반복수행
+                k++; // 한번 넣고 나면 다음 반복 수행
             }
 
-            if (i > middle) { // i가 먼저 넣는작업이 끝났다면
+            if (i > middle) { // i가 먼저 넣는 작업이 끝났다면
                 for (let t = j; t <= n; t++) { // 남은 j들을 넣음
                     sorted[k] = a[t];
                     k++;
@@ -46,17 +47,17 @@
                 }
             }
 
-            for (let t = m; t <= n; t++) { // 임시적으로 정렬된 데이터들을 넣기위해 만든 sorted배열을 원래의 배열인 a배열에 삽입
+            for (let t = m; t <= n; t++) { // 임시적으로 정렬된 데이터들을 넣기 위해 만든 sorted 배열을 원래의 배열인 a 배열에 삽입
                 a[t] = sorted[t];
             }
         }
 
         function mergeSort(a, m, n) {
-            if (m < n) {
+            if (m < n) { // 크기가 1인 경우 제외
                 let middle = parseInt((m + n) / 2);
-                mergeSort(a, m, middle);
+                mergeSort(a, m, middle); // 분할 먼저 수행 후,
                 mergeSort(a, middle + 1, n);
-                merge(a, m, middle, n);
+                merge(a, m, middle, n); // 그 후에 합칩니다.
             }
         }
 
