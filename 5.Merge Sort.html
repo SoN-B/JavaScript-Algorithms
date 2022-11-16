@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 병합 정렬 O(N * logN) - 일단 반으로 나누고 나중에 합쳐서 정렬하면 어떨까?
+        // 퀵정렬과 다르게 항상 정확하게 반절씩 나눈다는점에서 최악의 경우에도 O(N * logN)을 보장합니다. (피벗값 X)
+
+        let array = [10, 1, 5, 8, 7, 6, 4, 3, 2, 9];
+        let number = 10;
+        let sorted = []
+
+        function merge(a, m, middle, n) {
+
+            let i = m; // 첫번째 배열 시작 인덱스
+            let j = middle + 1; // 두번째 ~
+            let k = m;
+
+            while (i <= middle && j <= n) { // i 는 middle 전까지, j는 끝 인덱스인 n 전까지
+                if (a[i] <= a[j]) {
+                    sorted[k] = a[i];
+                    i++;
+                } else {
+                    sorted[k] = a[j];
+                    j++;
+                }
+                k++; // 한번 넣고나면 다음 반복수행
+            }
+
+            if (i > middle) { // i가 먼저 넣는작업이 끝났다면
+                for (let t = j; t <= n; t++) { // 남은 j들을 넣음
+                    sorted[k] = a[t];
+                    k++;
+                }
+            } else {
+                for (let t = i; t <= middle; t++) {
+                    sorted[k] = a[t];
+                    k++;
+                }
+            }
+
+            for (let t = m; t <= n; t++) { // 임시적으로 정렬된 데이터들을 넣기위해 만든 sorted배열을 원래의 배열인 a배열에 삽입
+                a[t] = sorted[t];
+            }
+        }
+
+        function mergeSort(a, m, n) {
+            if (m < n) {
+                let middle = parseInt((m + n) / 2);
+                mergeSort(a, m, middle);
+                mergeSort(a, middle + 1, n);
+                merge(a, m, middle, n);
+            }
+        }
+
+        mergeSort(array, 0, number - 1);
+        for (i = 0; i < 10; i++) {
+            console.log(array[i]);
+        }
+    </script>
+</body>
+
+</html>
