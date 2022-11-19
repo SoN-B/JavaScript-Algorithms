@@ -10,7 +10,50 @@
 
 <body>
     <script>
-        // 계수정렬 O(N) -
+        // 힙 정렬 O(N * log N) - 힙(Heap)을 이용해 데이터를 정렬하면 어떨까?
+
+        let number = 9;
+        let heap = [7, 6, 5, 8, 3, 5, 9, 1, 6];
+
+        // 먼저 전체 트리 구조를 '최대' 힙 구조로 바꿉니다.
+        for (let i = 0; i < number; i++) {
+            let c = i;
+            do {
+                let root = parseInt((c - 1) / 2); // 특정한 원소(c)의 부모를 가리킵니다.
+                if (heap[root] < heap[c]) { // 부모값 < 자식값
+                    let temp = heap[root];
+                    heap[root] = heap[c];
+                    heap[c] = temp;
+                }
+                c = root; // 위치를 바꿨으면, 자식이 부모로 이동합니다.
+            } while (c !== 0) // c가 양수일때만, 작동
+        }
+
+        // 크기를 줄여가며, 반복적으로 힙을 구성
+        for (let i = number - 1; i >= 0; i--) {
+            let temp = heap[0]; // 맨뒤 값과, 맨 앞값 교체
+            heap[0] = heap[i];
+            heap[i] = temp;
+
+            let root = 0;
+            let c = 1;
+            do {
+                c = (2 * root) + 1; // 왼쪽자식
+                // 자식 중에 더 큰 값을 찾기 (자식이 부모에 대해 한개만 있을 수 있어서 범위를 벗어나지 않게해야합니다.)
+                if (heap[c] < heap[c + 1] && c < i - 1) c++; // 오른쪽 값이 더 크다면, 오른쪽으로 이동
+                // 루트보다 자식이 더 크다면 교환
+                if (heap[root] < heap[c] && c < i) {
+                    let temp = heap[root];
+                    heap[root] = heap[c];
+                    heap[c] = temp;
+                }
+                root = c; // 그후, 그 자식이 루트가 됩니다.
+            } while (c < i);
+        }
+
+        for (i = 0; i < 10; i++) {
+            console.log(heap[i]);
+        }
     </script>
 </body>
 
