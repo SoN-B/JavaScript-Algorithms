@@ -11,6 +11,77 @@
 <body>
     <script>
         // 너비 우선 탐색
+        const count = {
+            A: 1,
+        };
+
+        // 인접 리스트 그래프
+        const graph = {
+            A: ["B", "C"],
+            B: ["A", "D", "E"],
+            C: ["A", "F", "G"],
+            D: ["B", "H", "I"],
+            E: ["B", "J"],
+            F: ["C"],
+            G: ["C", "K"],
+            H: ["D"],
+            I: ["D"],
+            J: ["E"],
+            K: ["G"],
+        };
+
+        const bfs = (graph, startNode) => {
+            const visited = []; // 방문처리
+            let needVisit = [];  // 방문처리가 필요한 노드들 집합
+
+            needVisit.push(startNode);
+            while (needVisit.length !== 0) { // 빌때까지
+                const node = needVisit.shift(); // queue의 선입선출로 shift() 사용
+                if (!visited.includes(node)) { // 해당 노드가 방문한 상태가 아니라면
+                    visited.push(node); // 방문처리
+                    needVisit = [...needVisit, ...graph[node]];
+                }
+            }
+
+            return visited;
+        }
+
+        let content = bfs(graph, 'A') // ['a', 'b', 'c', 'd', 'e', 'f...];
+
+        for (let x = 1; x < content.length; x++) { // b c d e f g h i j k
+            count[content[x]] = count[graph[content[x]][0]] + 1
+        }
+
+        //console.log(count);
+
+        // i의 최단경로?
+        let string = 'I' // I의 층수 = 4
+        let first = 'I';
+
+        let temp = count[string] - 1; // 그 다음 층수
+        let arr = [], result = [];
+
+        for (let y = temp; y > 0; y--) { // 3 2 1
+            for (let x = 0; x < content.length; x++) {
+                let key = content[x];
+                let value = count[key];
+                if (value === y) arr.push(key); // y층수와 같은 value값을 가진 key들을 삽입
+            }
+            // console.log(arr);
+
+            for (let x of arr) {
+                if (graph[x].includes(string)) { // 해당 key값들 중 string에 해당하는 변수 존재유무 확인(연결 됐다는 증거)
+                    string = x;
+                    result.push(string);
+                }
+            }
+            arr = [];
+        }
+
+        console.log(first, ...result);
+
+        // 참고 - https://mine-it-record.tistory.com/525
+        // https://nulls.co.kr/graph/141 - BFS로 찾은 경로가 최단 경로인 이유
     </script>
 </body>
 
