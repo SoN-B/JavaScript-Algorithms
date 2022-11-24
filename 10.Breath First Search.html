@@ -10,13 +10,8 @@
 
 <body>
     <script>
-        // 너비 우선 탐색
-        const count = {
-            A: 1,
-        };
-
-        // 인접 리스트 그래프
-        const graph = {
+        // BFS - 너비 우선 탐색
+        const graph = { // 인접 리스트 그래프
             A: ["B", "C"],
             B: ["A", "D", "E"],
             C: ["A", "F", "G"],
@@ -31,14 +26,14 @@
         };
 
         const bfs = (graph, startNode) => {
-            const visited = []; // 방문처리
-            let needVisit = [];  // 방문처리가 필요한 노드들 집합
+            const visited = []; // 방문 처리
+            let needVisit = [];  // 방문 처리가 필요한 노드들 집합
 
             needVisit.push(startNode);
-            while (needVisit.length !== 0) { // 빌때까지
+            while (needVisit.length !== 0) { // 빌 때까지
                 const node = needVisit.shift(); // queue의 선입선출로 shift() 사용
                 if (!visited.includes(node)) { // 해당 노드가 방문한 상태가 아니라면
-                    visited.push(node); // 방문처리
+                    visited.push(node); // 방문 처리
                     needVisit = [...needVisit, ...graph[node]];
                 }
             }
@@ -46,31 +41,42 @@
             return visited;
         }
 
-        let content = bfs(graph, 'A') // ['a', 'b', 'c', 'd', 'e', 'f...];
+        let content = bfs(graph, 'A') // ['a', 'b', 'c', 'd', 'e', 'f' ... 'k'];
+        // ----------------------------------------------------------------------------
+        // 각 노드들의 level 기록
+        const level = { // A는 시작요소니, 1초기화
+            A: 1,
+        };
 
-        for (let x = 1; x < content.length; x++) { // b c d e f g h i j k
-            count[content[x]] = count[graph[content[x]][0]] + 1
+        for (let x = 1; x < content.length; x++) { // b c d e f g h i j k - 각 요소들의 높이들을 기록하는 반복문
+            level[content[x]] = level[graph[content[x]][0]] + 1
         }
+        // 프로세스)
+        // 1. graph 상 B의 첫 요소 = A
+        // 2. A는 level 상에서 1
+        // 3. B = A의 level + 1 -> B = 2
 
-        //console.log(count);
+        // 1. graph 상 D의 첫 요소 = B
+        // 2. B는 level 상에서 2
+        // 3. D = B의 level + 1 -> D = 3
 
-        // i의 최단경로?
+        // 참고) graph 상 각 요소별, 배열 속 첫 요소는 그 요소의 루트 노드입니다.
+
+        // ----------------------------------------------------------------------------
+        // 그렇다면 A에서 I까지의 최단 경로는?
         let string = 'I' // I의 층수 = 4
-        let first = 'I';
 
-        let temp = count[string] - 1; // 그 다음 층수
         let arr = [], result = [];
 
-        for (let y = temp; y > 0; y--) { // 3 2 1
-            for (let x = 0; x < content.length; x++) {
-                let key = content[x];
-                let value = count[key];
-                if (value === y) arr.push(key); // y층수와 같은 value값을 가진 key들을 삽입
+        for (let x = level[string] - 1; x > 0; x--) { // 3 2 1
+            for (let y = 0; y < content.length; y++) {
+                let key = content[y];
+                let value = level[key];
+                if (value === x) arr.push(key); // I 층수와 같은 value 값을 가진 key들을 삽입
             }
-            // console.log(arr);
 
             for (let x of arr) {
-                if (graph[x].includes(string)) { // 해당 key값들 중 string에 해당하는 변수 존재유무 확인(연결 됐다는 증거)
+                if (graph[x].includes(string)) { // 해당 key 값들 중 string에 해당하는 변수 존재 유무 확인(연결됐다는 증거)
                     string = x;
                     result.push(string);
                 }
@@ -78,10 +84,10 @@
             arr = [];
         }
 
-        console.log(first, ...result);
+        console.log('I', ...result);
 
         // 참고 - https://mine-it-record.tistory.com/525
-        // https://nulls.co.kr/graph/141 - BFS로 찾은 경로가 최단 경로인 이유
+        // BFS로 찾은 경로가 최단 경로인 이유 - https://nulls.co.kr/graph/141
     </script>
 </body>
 
