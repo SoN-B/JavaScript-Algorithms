@@ -54,9 +54,11 @@
             toString() {
                 let array = [];
                 let currNode = this.head;
-                while(currNode.next !== null){ // 끝까지 빌때까지
+                let i = 0;
+                while(i < 10){ // 끝까지 빌때까지
                     array.push(currNode.next.element);
                     currNode = currNode.next;
+                    i++;
                 }
                 return array
             }
@@ -69,7 +71,7 @@
         linkedList.insert("Incheon", "Busan"); //head->Seoul->Daegu->Busan->Incheon
         linkedList.remove("Busan");
 
-        console.log(linkedList);
+        console.log(linkedList.toString());
     </script>
 </body>
 </html>
