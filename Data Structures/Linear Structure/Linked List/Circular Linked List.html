@@ -9,6 +9,67 @@
 <body>
     <script>
         // 만약 두 링크드 리스트에서 head와 tail이 서로 앞 뒤로 연결되어 있다면 환형 연결 리스트(Circular Linked List)
+        class Node {
+            constructor(element) {
+                this.element = element;
+                this.next = null;
+                this.prev = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = new Node("head");
+                this.head.next = this.head;
+            }
+
+            find(item) {
+                let currNode = this.head;
+                while (currNode.element !== item) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+
+            insert(newElement, item) { //head->Seoul->Busan->head
+                let newNode = new Node(newElement);
+                let current = this.find(item);
+                if (current.next !== null) {
+                    newNode.next = current.next;
+                    newNode.prev = current;
+                    
+                    current.next.prev = newNode;
+                    current.next = newNode;
+                }
+            }
+
+            remove(item) {
+                let currNode = this.find(item);
+                if (currNode.next !== null) {
+                    currNode.prev.next = currNode.next;
+                    currNode.next.prev = currNode.prev;
+                }
+            }
+
+            toString() {
+                let array = [];
+                let currNode = this.head;
+                while(currNode.next !== null){ // 끝까지 빌때까지
+                    array.push(currNode.next.element);
+                    currNode = currNode.next;
+                }
+                return array
+            }
+        }
+
+        const linkedList = new LinkedList();
+        linkedList.insert("Seoul", "head"); //head->Seoul->head
+        linkedList.insert("Busan", "Seoul"); //head->Seoul->Busan->head
+        linkedList.insert("Daegu", "Seoul"); //head->Seoul->Daegu->Busan
+        linkedList.insert("Incheon", "Busan"); //head->Seoul->Daegu->Busan->Incheon
+        linkedList.remove("Busan");
+
+        console.log(linkedList);
     </script>
 </body>
 </html>
