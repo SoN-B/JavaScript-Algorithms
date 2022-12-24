@@ -28,7 +28,7 @@
 
         const bfs = (graph, startNode) => {
             const visited = []; // 방문 처리
-            let needVisit = [];  // 방문 처리가 필요한 노드들 집합
+            let needVisit = []; // 방문 처리가 필요한 노드들 집합
 
             needVisit.push(startNode);
             while (needVisit.length !== 0) { // 빌 때까지
