@@ -47,3 +47,22 @@ const getCombinations = function (arr, selectNumber) {
  */
 
 // https://pul8219.github.io/algorithm/algorithm-permutation-and-combination/
+
+// Ex) arr = [1, 2, 3, 4, 5, 6]이 있고 (X = 6), 여기서 1 ~ 6개의 숫자를 선택하여 서로 더했을때, 6을 만들 수 있는경우의 수
+// 6, 1 + 5, 2 + 4, 1 + 2 + 3
+function powerSum(X, exponentIncrement = 1) {
+    let exponentVal = X - exponentIncrement;
+    if (exponentVal < 0) return 0;
+    else if (exponentVal === 0) return 1;
+    else return powerSum(exponentVal, exponentIncrement + 1) + powerSum(X, exponentIncrement + 1);
+}
+
+// 응용버전
+// Ex) arr = [1, 2, 3, 4, 5, 6, ..., 100]이 있고 (X = 100), 여기서 1 ~ 100개의 숫자를 선택하여, 각숫자를 제곱후(N = 2) 서로 더했을때, 100을 만들 수 있는경우의 수
+// 100 = (10^2) = (6^2 + 8^2) = (1^2 + 3^2 + 4^2 + 5^2 + 7^2)
+function powerSum(X, N, exponentIncrement = 1) {
+    let exponentVal = X - Math.pow(exponentIncrement, N);
+    if (exponentVal < 0) return 0;
+    else if (exponentVal === 0) return 1;
+    else return powerSum(exponentVal, N, exponentIncrement + 1) + powerSum(X, N, exponentIncrement + 1);
+}
